@@ -1,0 +1,26 @@
+---
+- name: installing tomcat7 and tomcat7-admin 
+  hosts: all
+  tasks:
+   - name: installing tomcat7 
+     apt: 
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+     with_items:
+      - tomcat7
+      - tomcat7-admin
+  # - name: backup tomcat-users.xml
+  #   fetch:
+  #    src: /etc/tomcat7/tomcat-users.xml
+  #    dest: /etc/tomcat-users.xml.bkp
+   - name: edit tomcat-users.xml
+     copy: 
+      src: /etc/tomcat-users.xml.bkp/172.31.19.39/etc/tomcat7/tomcat-users.xml
+      dest: /etc/tomcat7/tomcat-users.xml
+   - name: restart tomcat7
+     service:
+      name: tomcat7
+      state: restarted 
+
+...
